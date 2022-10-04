@@ -106,7 +106,7 @@ resource "azurerm_windows_virtual_machine" "my_terraform_vm" {
  source_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
+    sku       = "2016-Datacenter-gensecond"
     version   = "latest"
   }
 
