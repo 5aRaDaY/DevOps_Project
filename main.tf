@@ -1,10 +1,9 @@
-resource "azurerm_resource_group" "rg" {
-  location = var.resource_group_location
+data "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
 }
 
 # Create virtual network
-resource "azurerm_virtual_network" "my_terraform_network" {
+data "azurerm_virtual_network" "my_terraform_network" {
   name                = "myVnet"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.rg.location
@@ -20,7 +19,7 @@ resource "azurerm_subnet" "my_terraform_subnet" {
 }
 
 # Create public IPs
-resource "azurerm_public_ip" "my_terraform_public_ip" {
+data "azurerm_public_ip" "my_terraform_public_ip" {
   name                = "myPublicIP"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -28,7 +27,7 @@ resource "azurerm_public_ip" "my_terraform_public_ip" {
 }
 
 # Create Network Security Group and rule
-resource "azurerm_network_security_group" "my_terraform_nsg" {
+data "azurerm_network_security_group" "my_terraform_nsg" {
   name                = "myNetworkSecurityGroup"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
