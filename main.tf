@@ -98,16 +98,15 @@ resource "azurerm_windows_virtual_machine" "my_terraform_vm" {
     azurerm_network_interface.my_terraform_nic.id,
   ]
 
-  os_disk {
-    name                 = "myOsDisk"
+  os_disk {    
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
  source_image_reference {
-    publisher = "MicrosoftWindowsDesktop"
-    offer     = "Windows-10"
-    sku       = "win10-21h2-pro-g2"
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
     version   = "latest"
   }
 
