@@ -117,7 +117,7 @@ resource "azurerm_windows_virtual_machine" "my_terraform_vm" {
 
 
 resource "azurerm_mysql_server" "my_sql_srv" {
-  name                = "mysql-srv"
+  name                = "mysq1srv"
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
 
