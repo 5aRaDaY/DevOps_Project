@@ -1,20 +1,15 @@
-data "azurerm_resource_group" "rg" {
-  
-  name     = var.resource_group_name
-}
-
 # Create virtual network
 resource "azurerm_virtual_network" "my_terraform_network" {
   name                = "myWSVnet"
   address_space       = ["10.0.0.0/16"]
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
 }
 
 # Create subnet
 resource "azurerm_subnet" "my_terraform_subnet" {
   name                 = "myWSSubnet"
-  resource_group_name  = data.azurerm_resource_group.rg.name 
+  resource_group_name  = var.resource_group_name 
   virtual_network_name = azurerm_virtual_network.my_terraform_network.name
   address_prefixes     = ["10.0.128.0/24"]
 }
@@ -22,16 +17,16 @@ resource "azurerm_subnet" "my_terraform_subnet" {
 # Create public IPs
 resource "azurerm_public_ip" "my_terraform_public_ip" {
   name                = "myWSPublicIP"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic" 
 }
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "my_terraform_nsg" {
   name                = "myWSNetworkSecurityGroup"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
 
   security_rule {
     name                       = "SSH"
@@ -49,8 +44,8 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
 # Create network interface
 resource "azurerm_network_interface" "my_terraform_nic" {
   name                = "myWSNIC"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = var.resource_group_location
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = "my_nic_configuration"
@@ -70,7 +65,7 @@ resource "azurerm_network_interface_security_group_association" "example" {
 resource "random_id" "random_id" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group = data.azurerm_resource_group.rg.name
+    resource_group = var.resource_group_name
   }
 
   byte_length = 8
@@ -79,8 +74,8 @@ resource "random_id" "random_id" {
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "my_storage_account" {
   name                     = "diag${random_id.random_id.hex}"
-  location                 = data.azurerm_resource_group.rg.location
-  resource_group_name      = data.azurerm_resource_group.rg.name
+  location                 = var.resource_group_location
+  resource_group_name      = var.resource_group_name
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
@@ -94,8 +89,8 @@ resource "tls_private_key" "example_ssh" {
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "my_terraform_vm" {
   name                = "WindowsServerVM"
-  resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
   size                = "Standard_DS1_v2"  
   admin_username      = "adminuser"
   admin_password      = "P@$$w0rd1234!"
@@ -124,8 +119,8 @@ resource "azurerm_windows_virtual_machine" "my_terraform_vm" {
 
 resource "azurerm_mysql_server" "my_sql_srv" {
   name                = "mysqlsrv"
-  resource_group_name = data.azurerm_resource_group.rg.name
-  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
 
   administrator_login          = "mysqladminun"
   administrator_login_password = "H@Sh1CoR3!"
@@ -145,7 +140,7 @@ resource "azurerm_mysql_server" "my_sql_srv" {
 
 resource "azurerm_mysql_database" "my_sql_db" {
   name                = "mysqldb"
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
   server_name         = azurerm_mysql_server.my_sql_srv.name
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
