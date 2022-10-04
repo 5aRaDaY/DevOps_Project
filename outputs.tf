@@ -9,9 +9,9 @@ output "tls_private_key" {
 }
 
 output "azurerm_mysql_database" {
-  value = azurerm_mysql_database.mysqldb.server_name
+  value = azurerm_mysql_database.my_sql_db.server_name
 }
 
 output "azurerm_mysql_server" {
-  value = azurerm_mysql_server.mysqlsrv.name
+  value = azurerm_mysql_server.my_sql_srv.name
 }
