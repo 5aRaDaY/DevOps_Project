@@ -146,3 +146,9 @@ resource "azurerm_mysql_database" "my_sql_db" {
   
 }
 
+resource "null_resource" "fill_mysqldb" {
+ provisioner "local-exec" {    
+    command = "/bin/bash filldb.sh"
+  }
+}
+
