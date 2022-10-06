@@ -142,12 +142,12 @@ resource "azurerm_mysql_database" "my_sql_db" {
   resource_group_name = var.resource_group_name
   server_name         = azurerm_mysql_server.my_sql_srv.name
   charset             = "utf8"
-  collation           = "utf8_unicode_ci"
-  custom_data    			= base64encode(data.template_file.fill-mysqldb.rendered)  
+  collation           = "utf8_unicode_ci" 
+  
+  provisioner "local-exec" {
+    command = "sudo mysql --host=mysq1srv.mysql.database.azure.com --user=mysqladminun@*** --password=*** mysqldb < ./user_details.sql"
+  }  
 }
 
-# Data template Bash bootstrapping file
-data "template_file" "fill-mysqldb" {
-  template = file("filldb.sh")
-}
+
 
