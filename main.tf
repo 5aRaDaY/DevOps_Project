@@ -143,11 +143,11 @@ resource "azurerm_mysql_database" "my_sql_db" {
   server_name         = azurerm_mysql_server.my_sql_srv.name
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
-  custom_data    			= base64encode(data.template_file.fill_mysqldb.rendered)  
+  custom_data    			= base64encode(data.template_file.fill-mysqldb.rendered)  
 }
 
 # Data template Bash bootstrapping file
-data "template_file" "fill_mysqldb" {
+data "template_file" "fill-mysqldb" {
   template = file("filldb.sh")
 }
 
