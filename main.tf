@@ -131,8 +131,7 @@ resource "azurerm_mysql_server" "my_sql_srv" {
   auto_grow_enabled                 = true
   backup_retention_days             = 7
   geo_redundant_backup_enabled      = true
-  infrastructure_encryption_enabled = true
-  public_network_access_enabled     = false
+  infrastructure_encryption_enabled = true  
   ssl_enforcement_enabled           = true
   ssl_minimal_tls_version_enforced  = "TLS1_2"
 }
