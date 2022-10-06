@@ -152,7 +152,7 @@ resource "azurerm_mysql_database" "my_sql_db" {
   collation           = "utf8_unicode_ci" 
   
   provisioner "local-exec" {
-    command = "sudo mysql --host=mysq1srv.mysql.database.azure.com --user=mysqladminun@mysq1srv --password=H@Sh1CoR3! mysqldb < ./user_details.sql"
+    command = "mysql --host=mysq1srv.mysql.database.azure.com --user=mysqladminun@mysq1srv --password=H@Sh1CoR3! mysqldb < ./user_details.sql"
   }  
 }
 
