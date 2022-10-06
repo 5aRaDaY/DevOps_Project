@@ -137,6 +137,14 @@ resource "azurerm_mysql_server" "my_sql_srv" {
   ssl_minimal_tls_version_enforced  = "TLS1_2"
 }
 
+resource "azurerm_mysql_firewall_rule" "my_sql_frwl" {
+  name                = "mysqlfrwl"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_server.my_sql_srv.name
+  start_ip_address    = var.firewall_rule_ip_address
+  end_ip_address      = var.firewall_rule_ip_address
+}
+
 resource "azurerm_mysql_database" "my_sql_db" {
   name                = "mysqldb"
   resource_group_name = var.resource_group_name
